@@ -13,14 +13,14 @@ const ExcelParser: React.FC = () => {
     soncapFee: 0,
   });
   const [fileName, setFileName] = useState<string>("");
-  const [formData, setFormData] = useState({
+  const [formDataValues, setFormDataValues] = useState({
     dollarRate: 0,
     clearingFee: 0,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormDataValues((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -185,8 +185,9 @@ const ExcelParser: React.FC = () => {
               type="number"
               name="dollarRate" // Step 3: Set name for the input
               placeholder="Dollar rate"
-              value={formData.dollarRate} // Bind value to state
+              value={formDataValues.dollarRate} // Bind value to state
               onChange={handleChange} // Bind onChange to handleChange
+              required
             />
           </div>
           <div>
@@ -195,8 +196,9 @@ const ExcelParser: React.FC = () => {
               type="number"
               name="clearingFee" // Step 3: Set name for the input
               placeholder="Clearing fee"
-              value={formData.clearingFee} // Bind value to state
+              value={formDataValues.clearingFee} // Bind value to state
               onChange={handleChange} // Bind onChange to handleChange
+              required
             />
           </div>
 
@@ -221,7 +223,7 @@ const ExcelParser: React.FC = () => {
         <DownloadPage
           items={mkItems}
           totals={invoiceTotals}
-          formData={formData}
+          formDataValues={formDataValues}
         />
       )}
     </div>

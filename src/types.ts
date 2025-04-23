@@ -7,7 +7,12 @@ export interface MKItem {
   amount: number;
   grossWeight?: number;
   netWeight?: number;
-  measurement?: number;
+  measurement: number;
+  cartonPriceNaira?: number;
+  shippingFeeInNaira?: number;
+  clearingCost?: number;
+  totalWithoutClearing: number;
+  total: number;
 }
 
 export interface InvoiceTotals {

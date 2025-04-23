@@ -1,5 +1,6 @@
 import * as XLSX from "xlsx";
 import { MKItem, InvoiceTotals, formDataValues } from "../types";
+import { useState } from "react";
 interface DownloadPageProps {
   items: MKItem[];
   totals: InvoiceTotals;
@@ -12,6 +13,29 @@ export default function DownloadPage({
   formDataValues,
 }: DownloadPageProps) {
   console.log(items, totals, formDataValues);
+
+  const totalShipping = totals.seaFreight + totals.soncapFee;
+  const totalCbm: number = Number(
+    items.reduce((acc, obj) => acc + obj.measurement, 0).toFixed(2)
+  );
+  console.log(totalCbm);
+
+  const updatedData: item[] = items.map((item) => {
+    const cartonPriceNaira = item.amount * formDataValues.dollarRate;
+    const shippingFeeInNaira =
+      item.measurement * (totalShipping / totalCbm) * formDataValues.dollarRate;
+    const clearingCost =
+      item.measurement * (formDataValues.clearingFee / totalCbm);
+
+    return {
+      ...item,
+      cartonPriceNaira,
+      shippingFeeInNaira,
+      clearingCost,
+      totalWithoutClearing: cartonPriceNaira + shippingFeeInNaira,
+      total: cartonPriceNaira + shippingFeeInNaira + clearingCost,
+    };
+  });
   const handleDownload = () => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
