@@ -47,6 +47,7 @@ export default function DownloadPage({
       clearingCost,
       totalWithoutClearing,
       index,
+      cartonPriceNaira,
       ...rest
     }) => {
       return rest;
