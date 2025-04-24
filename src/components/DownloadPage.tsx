@@ -1,6 +1,5 @@
 import * as XLSX from "xlsx";
 import { MKItem, InvoiceTotals, formDataValues } from "../types";
-import { useState } from "react";
 interface DownloadPageProps {
   items: MKItem[];
   totals: InvoiceTotals;
@@ -20,7 +19,7 @@ export default function DownloadPage({
   );
   console.log(totalCbm);
 
-  const updatedData: item[] = items.map((item) => {
+  const updatedData: MKItem[] = items.map((item) => {
     const cartonPriceNaira = item.amount * formDataValues.dollarRate;
     const shippingFeeInNaira =
       item.measurement * (totalShipping / totalCbm) * formDataValues.dollarRate;
@@ -33,23 +32,35 @@ export default function DownloadPage({
       shippingFeeInNaira,
       clearingCost,
       totalWithoutClearing: cartonPriceNaira + shippingFeeInNaira,
-      total: cartonPriceNaira + shippingFeeInNaira + clearingCost,
+      total_Price: cartonPriceNaira + shippingFeeInNaira + clearingCost,
     };
   });
+
+  console.log({ updatedData });
+
+  const filteredData: Partial<MKItem>[] = updatedData.map(
+    ({
+      unitPrice,
+      grossWeight,
+      netWeight,
+      shippingFeeInNaira,
+      clearingCost,
+      totalWithoutClearing,
+      index,
+      ...rest
+    }) => {
+      return rest;
+    }
+  );
+
+  console.log({ filteredData });
   const handleDownload = () => {
     // Create a new workbook
-    const wb = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(filteredData); // creates table with headers from keys
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Items");
 
-    // Convert your data to worksheet
-    const wsItems = XLSX.utils.json_to_sheet(items);
-    const wsTotals = XLSX.utils.json_to_sheet([totals]);
-
-    // Add worksheets to workbook
-    XLSX.utils.book_append_sheet(wb, wsItems, "Items");
-    XLSX.utils.book_append_sheet(wb, wsTotals, "Totals");
-
-    // Generate file and trigger download
-    XLSX.writeFile(wb, "calculated_results.xlsx");
+    XLSX.writeFile(workbook, "items_export.xlsx");
   };
 
   return (

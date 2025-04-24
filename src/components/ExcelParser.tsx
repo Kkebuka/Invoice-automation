@@ -14,8 +14,8 @@ const ExcelParser: React.FC = () => {
   });
   const [fileName, setFileName] = useState<string>("");
   const [formDataValues, setFormDataValues] = useState({
-    dollarRate: 0,
-    clearingFee: 0,
+    dollarRate: 1,
+    clearingFee: 16000000,
   });
 
   const handleChange = (e) => {
@@ -89,7 +89,7 @@ const ExcelParser: React.FC = () => {
             index: index + 1, // Use the row index (1-based)
             itemNumber: itemNo, // Store the item number
             description: row[5] || "",
-            quantity: Number(row[4]) || 0,
+            quantity: Number(row[3]) || 0,
             unitPrice: Number(row[6]) || 0,
             amount: Number(row[7]) || 0,
           };

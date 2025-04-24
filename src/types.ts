@@ -12,7 +12,7 @@ export interface MKItem {
   shippingFeeInNaira?: number;
   clearingCost?: number;
   totalWithoutClearing: number;
-  total: number;
+  total_Price: number;
 }
 
 export interface InvoiceTotals {
