@@ -14,8 +14,8 @@ const ExcelParser: React.FC = () => {
   });
   const [fileName, setFileName] = useState<string>("");
   const [formDataValues, setFormDataValues] = useState({
-    dollarRate: 1,
-    clearingFee: 16000000,
+    dollarRate: null,
+    clearingFee: null,
   });
 
   const handleChange = (e) => {
@@ -158,9 +158,9 @@ const ExcelParser: React.FC = () => {
   };
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <div className="p-4 max-w-4xl mx-auto w-full   bg-red-300  h-screen flex items-center justify-center ">
       {!isCalculating ? (
-        <form>
+        <form className="bg-white p-4 rounded-md">
           <h1 className="text-2xl font-bold mb-4">Upload Excel File</h1>
 
           {/* File Upload */}
@@ -179,7 +179,7 @@ const ExcelParser: React.FC = () => {
             )}
           </div>
 
-          <div>
+          <div className="flex flex-col my-2">
             <label htmlFor="dollarRate">Dollar Rate (e.g., 1600)</label>
             <input
               type="number"
@@ -188,10 +188,11 @@ const ExcelParser: React.FC = () => {
               value={formDataValues.dollarRate} // Bind value to state
               onChange={handleChange} // Bind onChange to handleChange
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
-          <div>
-            <label htmlFor="clearingFee">Clearing Fee</label>
+          <div className="flex flex-col">
+            <label htmlFor="clearingFee">Clearing Fee(e.g 15000000)</label>
             <input
               type="number"
               name="clearingFee" // Step 3: Set name for the input
@@ -199,6 +200,7 @@ const ExcelParser: React.FC = () => {
               value={formDataValues.clearingFee} // Bind value to state
               onChange={handleChange} // Bind onChange to handleChange
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
 
