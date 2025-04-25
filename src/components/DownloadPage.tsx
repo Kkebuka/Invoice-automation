@@ -33,9 +33,9 @@ export default function DownloadPage({
       shippingFeeInNaira,
       clearingCost,
       totalWithoutClearing: cartonPriceNaira + shippingFeeInNaira,
-      total_Price: Number(
+      total_Price: ` ₦${Math.round(
         cartonPriceNaira + shippingFeeInNaira + clearingCost
-      ).toLocaleString(),
+      ).toLocaleString()}`,
     };
   });
 
