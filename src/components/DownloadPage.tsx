@@ -65,20 +65,25 @@ export default function DownloadPage({
   };
 
   return (
-    <div className="download-container">
-      <h1>Your Calculation is Ready</h1>
+    <div className="download-container p-4">
+      <h1 className="text-2xl font-bold mb-4">Your Calculation is Ready</h1>
       <p>Processed {items.length} items</p>
+      <div className="border-2 p-2">
+        <h3>Summary</h3>
+        <p>Sea Freight: {totals.seaFreight}</p>
+        <p>SONCAP Fee: {totals.soncapFee}</p>
+        <p>Total CBM: {totalCbm}</p>
+        <p>Dollar Rate: {formDataValues.dollarRate}</p>
+      </div>
 
-      <button onClick={handleDownload} className="download-btn">
+      <button
+        onClick={handleDownload}
+        className="bg-green-600 hover:bg-green-700 active:scale-95 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition transform duration-150"
+      >
         Download Excel File
       </button>
 
       {/* Optional: Show summary */}
-      <div className="summary">
-        <h3>Summary</h3>
-        <p>Sea Freight: {totals.seaFreight}</p>
-        <p>SONCAP Fee: {totals.soncapFee}</p>
-      </div>
     </div>
   );
 }

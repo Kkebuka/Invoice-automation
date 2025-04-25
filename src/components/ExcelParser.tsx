@@ -20,10 +20,21 @@ const ExcelParser: React.FC = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormDataValues((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    // Remove all non-numeric characters (except .)
+    const rawValue = value.replace(/,/g, "");
+
+    if (!isNaN(rawValue)) {
+      setFormDataValues((prevData) => ({
+        ...prevData,
+        [name]: rawValue,
+      }));
+    }
+  };
+  const formatWithCommas = (value: string | number) => {
+    const num = Number(value);
+    if (isNaN(num)) return "";
+    return num.toLocaleString();
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -161,7 +172,7 @@ const ExcelParser: React.FC = () => {
     <div className="p-4 max-w-4xl mx-auto w-full   bg-red-300  h-screen flex items-center justify-center ">
       {!isCalculating ? (
         <form className="bg-white p-4 rounded-md">
-          <h1 className="text-2xl font-bold mb-4">Upload Excel File</h1>
+          <h1 className="text-2xl font-bold mb-4">Upload Excel Invoice</h1>
 
           {/* File Upload */}
           <div
@@ -182,11 +193,11 @@ const ExcelParser: React.FC = () => {
           <div className="flex flex-col my-2">
             <label htmlFor="dollarRate">Dollar Rate (e.g., 1600)</label>
             <input
-              type="number"
-              name="dollarRate" // Step 3: Set name for the input
+              type="text"
+              name="dollarRate"
               placeholder="Dollar rate"
-              value={formDataValues.dollarRate} // Bind value to state
-              onChange={handleChange} // Bind onChange to handleChange
+              value={formatWithCommas(formDataValues.dollarRate)}
+              onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
@@ -194,11 +205,11 @@ const ExcelParser: React.FC = () => {
           <div className="flex flex-col">
             <label htmlFor="clearingFee">Clearing Fee(e.g 15000000)</label>
             <input
-              type="number"
-              name="clearingFee" // Step 3: Set name for the input
+              type="text"
+              name="clearingFee"
               placeholder="Clearing fee"
-              value={formDataValues.clearingFee} // Bind value to state
-              onChange={handleChange} // Bind onChange to handleChange
+              value={formatWithCommas(formDataValues.clearingFee)}
+              onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
