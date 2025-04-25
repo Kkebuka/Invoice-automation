@@ -28,11 +28,14 @@ export default function DownloadPage({
 
     return {
       ...item,
+
       cartonPriceNaira,
       shippingFeeInNaira,
       clearingCost,
       totalWithoutClearing: cartonPriceNaira + shippingFeeInNaira,
-      total_Price: cartonPriceNaira + shippingFeeInNaira + clearingCost,
+      total_Price: Number(
+        cartonPriceNaira + shippingFeeInNaira + clearingCost
+      ).toLocaleString(),
     };
   });
 
